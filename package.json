@@ -4,7 +4,7 @@
   "description": "Queue Consumer for Metric Monitoring",
   "main": "build/lib/orchestrator.js",
   "scripts": {
-    "compile": "rm -rf ./build",
+    "compile": "rm -rf ./build && tsc",
     "prepare": "npm run compile",
     "test": "npm run compile && nyc --reporter=html --reporter=json-summary --reporter=text-summary --exit-on-error=true mocha --timeout 30000 --recursive ./build/test"
   },
@@ -12,20 +12,20 @@
   "license": "MIT",
   "devDependencies": {
     "@types/chai": "~4.2.12",
-    "@types/mocha": "~8.0.0",
     "@types/chai-as-promised": "~7.1.3",
+    "@types/mocha": "~8.0.0",
     "chai": "~4.2.0",
-    "mocha": "~8.2.1",
-    "sinon": "~9.0.2",
-    "ts-node": "~8.10.2",
-    "typescript": "~3.9.7",
-    "proxyquire": "~2.1.3",
     "chai-as-promised": "~7.1.1",
+    "mocha": "~8.2.1",
+    "nyc": "~15.1.0",
+    "proxyquire": "~2.1.3",
+    "sinon": "~9.0.2",
     "sinon-chai": "~3.5.0",
-    "nyc": "~15.1.0"
+    "ts-node": "~8.10.2",
+    "typescript": "~5.9.2"
   },
   "dependencies": {
-    "@google-cloud/pubsub": "~2.6.0",
+    "@google-cloud/pubsub": "~5.2.0",
     "async": "~2.5.0",
     "aws-sdk": "~2.794.0",
     "bluebird": "~3.7.2",
