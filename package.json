@@ -4,7 +4,7 @@
   "description": "Queue Consumer for Metric Monitoring",
   "main": "build/lib/orchestrator.js",
   "scripts": {
-    "compile": "rm -rf ./build && tsc",
+    "compile": "rm -rf ./build && tsc --skipLibCheck",
     "prepare": "npm run compile",
     "test": "npm run compile && nyc --reporter=html --reporter=json-summary --reporter=text-summary --exit-on-error=true mocha --timeout 30000 --recursive ./build/test"
   },
@@ -25,7 +25,7 @@
     "typescript": "~5.9.2"
   },
   "dependencies": {
-    "@google-cloud/pubsub": "~5.2.0",
+    "@google-cloud/pubsub": "~2.6.0",
     "async": "~2.5.0",
     "aws-sdk": "~2.794.0",
     "bluebird": "~3.7.2",
