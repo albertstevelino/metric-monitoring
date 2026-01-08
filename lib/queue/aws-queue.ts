@@ -119,7 +119,9 @@ class AWSQueue extends Queue {
       await Bluebird.map(messages, (message) => {
         return Bluebird.resolve()
           .then(async () => {
-            this.logger.info(`[Consumer ${consumerIndex}] Process message: ${JSON.stringify(message.Body)}`);
+            if (!this.config.disableInfoLogging) {
+              this.logger.info(`[Consumer ${consumerIndex}] Process message: ${JSON.stringify(message.Body)}`);
+            }
 
             let messageQueue;
 
@@ -133,7 +135,9 @@ class AWSQueue extends Queue {
 
             await this.processMessage(messageQueue);
 
-            this.logger.info(`[Consumer ${consumerIndex}] Done processing message: ${JSON.stringify(messageQueue.content)}`);
+            if (!this.config.disableInfoLogging) {
+              this.logger.info(`[Consumer ${consumerIndex}] Done processing message: ${JSON.stringify(messageQueue.content)}`);
+            }
           })
           .catch((error) => {
             this.logger.error(`[Consumer ${consumerIndex}] Error when processing message: ${JSON.stringify(message.Body)}. Error: ${error.message || JSON.stringify(error.stack)}`);

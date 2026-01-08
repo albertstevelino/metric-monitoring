@@ -5,6 +5,7 @@ interface PollConfig {
   delayer?: Delayer;
   consumerCount?: number;
   concurrency?: number;
+  disableInfoLogging?: boolean,
   additionalConfig?: {
     [key: string]: any
   }

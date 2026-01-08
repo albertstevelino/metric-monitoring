@@ -87,7 +87,9 @@ class GooglePubSub extends Queue {
   async processMessageWithErrorHandling(message: Message, subscriptionIndex: number): Promise<void> {
     return Bluebird.resolve()
       .then(async () => {
-        this.logger.info(`[Subscriber ${subscriptionIndex}] Process message: ${message.data.toString()}`);
+        if (!this.config.disableInfoLogging) {
+          this.logger.info(`[Subscriber ${subscriptionIndex}] Process message: ${message.data.toString()}`);
+        }
 
         let messageQueue;
 
@@ -101,7 +103,9 @@ class GooglePubSub extends Queue {
 
         await this.processMessage(messageQueue);
 
-        this.logger.info(`[Subscriber ${subscriptionIndex}] Done processing message: ${JSON.stringify(messageQueue.content)}`);
+        if (!this.config.disableInfoLogging) {
+          this.logger.info(`[Subscriber ${subscriptionIndex}] Done processing message: ${JSON.stringify(messageQueue.content)}`);
+        }
       })
       .catch((error) => {
         this.logger.error(`[Subscriber ${subscriptionIndex}] Error when processing message: ${message.data.toString()}. Error: ${error.message || JSON.stringify(error.stack)}`);
