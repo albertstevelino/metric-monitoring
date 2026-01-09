@@ -83,11 +83,12 @@ class GooglePubSub extends Queue {
    *
    * @param {Message} message
    * @param {number} subscriptionIndex
+   * @param {boolean} disableInfoLogging
    */
-  async processMessageWithErrorHandling(message: Message, subscriptionIndex: number): Promise<void> {
+  async processMessageWithErrorHandling(message: Message, subscriptionIndex: number, disableInfoLogging: boolean): Promise<void> {
     return Bluebird.resolve()
       .then(async () => {
-        if (!this.config.disableInfoLogging) {
+        if (!disableInfoLogging) {
           this.logger.info(`[Subscriber ${subscriptionIndex}] Process message: ${message.data.toString()}`);
         }
 
@@ -103,7 +104,7 @@ class GooglePubSub extends Queue {
 
         await this.processMessage(messageQueue);
 
-        if (!this.config.disableInfoLogging) {
+        if (!disableInfoLogging) {
           this.logger.info(`[Subscriber ${subscriptionIndex}] Done processing message: ${JSON.stringify(messageQueue.content)}`);
         }
       })
@@ -134,7 +135,7 @@ class GooglePubSub extends Queue {
     });
 
     subscription.on('error', config.onError);
-    subscription.on('message', (message) => this.processMessageWithErrorHandling(message, subscriptionIndex));
+    subscription.on('message', (message) => this.processMessageWithErrorHandling(message, subscriptionIndex, config.disableInfoLogging));
 
     return subscription;
   }
